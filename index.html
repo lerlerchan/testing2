@@ -1,3 +1,52 @@
-<html>
-  <body>I like apple.</body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introduce Myself</title>
+    <script src="https://cdn.openai.com/dall-e-api/dall-e-api.min.js"></script>
+<script>
+ function generateImage(event) {
+        event.preventDefault();
+        
+        const imageDescription = document.getElementById('imageDescription').value;
+        
+        const request = {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer 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'
+          },
+          body: JSON.stringify({
+            'model': 'image-alpha-001',
+            'prompt': `Generate an image of ${imageDescription}`,
+            'num_images': 1,
+            'size': '256x256'
+          })
+        };
+        
+        fetch('https://api.openai.com/v1/images/generations', request)
+          .then(response => response.json())
+          .then(data => {
+            const image = document.createElement('img');
+            image.src = data.data[0].url;
+            document.body.appendChild(image);
+          });
+      }
+      document.querySelector('form').addEventListener('submit', generateImage);
+
+</script>
+   
+
+</head>
+<body>
+    <form id='form'>
+        <label for="imageDescription">Enter an image description:</label><br>
+        <input type="text" id="imageDescription" name="imageDescription"><br>
+        <input type="submit" value="Submit">
+      </form>
+
+</body>
+<footer>copyright 2021</footer>
 </html>
